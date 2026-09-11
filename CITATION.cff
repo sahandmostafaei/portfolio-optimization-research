@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+title: "Portfolio Optimization Research"
+message: "If you use this research project or its code, please cite the repository."
+type: software
+authors:
+  - family-names: Mostafaei
+    given-names: Sahand
+year: 2026
+version: "1.0.0"
+license: MIT
+abstract: >
+  Independent research examining whether portfolio optimization adds value
+  after accounting for estimation risk, market regimes, turnover, transaction
+  costs, and out-of-sample implementation constraints.
+repository-code: "https://github.com/sahandmostafaei/portfolio-optimization-research"
