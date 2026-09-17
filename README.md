@@ -6,33 +6,29 @@
 
 **Independent Quantitative Finance Research Project**
 
-This project investigates whether portfolio optimization generates
-economically meaningful benefits when evaluated under estimation uncertainty,
-market-regime variation, portfolio turnover, transaction costs, and realistic
-portfolio constraints.
+---
 
-The study is designed as an empirical research project rather than a
-demonstration of optimization techniques alone. Its central objective is to
-determine whether theoretically attractive portfolio allocations remain
-robust when evaluated strictly out of sample.
+## Research Overview
+
+This project investigates whether portfolio optimization generates economically meaningful benefits when evaluated under estimation uncertainty, market-regime variation, portfolio turnover, transaction costs, and realistic portfolio constraints.
+
+The study is designed as an empirical research project rather than a demonstration of optimization techniques alone. Its central objective is to examine whether theoretically attractive portfolio allocations remain robust when evaluated under a disciplined out-of-sample framework.
+
+The project combines portfolio theory, quantitative finance, empirical asset-pricing concepts, statistical inference, and implementation-aware portfolio analysis.
 
 ---
 
 ## Research Question
 
-> Does portfolio optimization add value once realistic implementation
-> constraints and estimation uncertainty are incorporated into an out-of-sample
-> investment framework?
+> **Does portfolio optimization add value once realistic implementation constraints and estimation uncertainty are incorporated into an out-of-sample investment framework?**
 
-Traditional portfolio optimization depends on estimated expected returns and
-covariance matrices. Both are uncertain and can produce unstable portfolio
-weights.
+Traditional portfolio optimization depends on estimated expected returns and covariance matrices. Because these parameters are uncertain, optimized portfolio weights can become unstable and may fail to deliver the characteristics suggested by in-sample optimization.
 
-This research evaluates portfolio construction methods using a rolling
-out-of-sample framework and examines:
+This research therefore examines:
 
 - estimation risk;
 - covariance uncertainty;
+- out-of-sample performance;
 - market regimes;
 - portfolio turnover;
 - transaction costs;
@@ -45,25 +41,22 @@ out-of-sample framework and examines:
 
 ## Research Motivation
 
-Modern portfolio theory provides a formal framework for allocating capital
-across risky assets.
+Modern portfolio theory provides a formal framework for allocating capital across risky assets.
 
-However, the practical performance of an optimized portfolio can differ
-substantially from its theoretical characteristics because the parameters used
-by the optimizer must be estimated from historical data.
+However, the parameters required by optimization are estimated rather than known. This creates a fundamental distinction between a portfolio that is mathematically optimal under estimated parameters and a portfolio that performs well when those estimates are confronted with future observations.
 
-This creates a fundamental empirical question:
+The project therefore asks whether additional model complexity translates into robust economic value.
 
-> Does additional model complexity translate into superior out-of-sample
-> investment performance?
+The analysis compares established portfolio construction methods using a common:
 
-The project therefore compares established portfolio construction methods
-under a common information set, common asset universe, common implementation
-constraints, and common out-of-sample evaluation procedure.
+- asset universe;
+- information set;
+- estimation framework;
+- investment constraint set;
+- rebalancing framework; and
+- out-of-sample evaluation procedure.
 
-The analysis focuses not only on returns, but also on whether any observed
-advantage survives transaction costs, estimation uncertainty, turnover, and
-different market conditions.
+The objective is to evaluate portfolio construction from both a statistical and an investment-implementation perspective.
 
 ---
 
@@ -71,64 +64,104 @@ different market conditions.
 
 ### H1 — Out-of-Sample Performance
 
-Portfolio optimization does not necessarily outperform simple equal weighting
-when evaluated strictly out of sample.
+Portfolio optimization does not necessarily generate superior out-of-sample risk-adjusted performance relative to equal weighting.
 
 ### H2 — Estimation Risk
 
-Strategies that depend more heavily on estimated parameters are more sensitive
-to estimation uncertainty and may exhibit weaker out-of-sample performance.
+Strategies that rely more heavily on estimated parameters are more sensitive to estimation uncertainty.
 
 ### H3 — Transaction Costs
 
-Higher portfolio turnover reduces the economic attractiveness of optimized
-strategies after transaction costs.
+Higher portfolio turnover reduces the economic attractiveness of optimized portfolios after transaction costs.
 
 ### H4 — Market Regimes
 
-The relative performance of portfolio construction strategies varies across
-bull, neutral, and bear market environments.
+The relative performance and risk characteristics of portfolio construction strategies vary across different market environments.
 
 ### H5 — Covariance Estimation
 
-Covariance shrinkage can improve the stability of optimized portfolios by
-reducing sensitivity to noisy sample covariance estimates.
+Covariance shrinkage can improve portfolio stability by reducing sensitivity to noisy sample covariance estimates.
 
 ---
 
-## Portfolio Strategies
+# Portfolio Strategies
 
 The baseline analysis compares four portfolio construction approaches.
 
-### 1. Equal Weight
+## 1. Equal Weight
 
-Each asset receives the same portfolio weight.
+Each asset receives an equal portfolio allocation.
 
-Equal weighting provides a transparent benchmark that does not require
-estimation of expected returns or covariance matrices.
+For `N` assets:
 
-### 2. Global Minimum Variance
+`w_i = 1 / N`
 
-The portfolio minimizes estimated variance subject to the investment
-constraints.
+Equal weighting provides a transparent benchmark that does not require expected-return or covariance estimation.
 
-### 3. Mean-Variance Optimization
-
-The portfolio balances estimated expected return against estimated portfolio
-variance using a risk-aversion parameter.
-
-### 4. Equal Risk Contribution
-
-The portfolio attempts to allocate portfolio risk approximately equally
-across assets.
-
-These four strategies represent different approaches to portfolio
-construction and allow the research to examine whether greater model
-complexity produces greater economic value.
+Its simplicity makes it an appropriate reference point for assessing whether optimization provides sufficient additional value to justify its estimation requirements.
 
 ---
 
-## Asset Universe
+## 2. Global Minimum Variance
+
+The global minimum variance portfolio solves:
+
+`min_w w' Σ w`
+
+subject to:
+
+`sum_i w_i = 1`
+
+and:
+
+`0 <= w_i <= 0.30`
+
+where:
+
+- `w` is the portfolio-weight vector;
+- `Σ` is the estimated covariance matrix.
+
+The strategy attempts to minimize estimated portfolio variance subject to the implementation constraints.
+
+---
+
+## 3. Mean-Variance Optimization
+
+The mean-variance strategy solves:
+
+`max_w [w' μ - (γ / 2) w' Σ w]`
+
+subject to the portfolio constraints.
+
+Here:
+
+- `μ` is the estimated expected-return vector;
+- `Σ` is the estimated covariance matrix;
+- `γ` is the risk-aversion parameter.
+
+The baseline specification uses:
+
+`γ = 3`
+
+Robustness specifications consider:
+
+`γ ∈ {1, 3, 5, 10}`
+
+Because both expected returns and covariances are estimated from historical observations, mean-variance optimization provides a direct framework for studying estimation risk.
+
+---
+
+## 4. Equal Risk Contribution
+
+The equal-risk-contribution strategy seeks to allocate portfolio risk approximately equally across assets.
+
+Rather than relying primarily on expected-return forecasts, the approach focuses on the covariance structure and the contribution of each asset to overall portfolio risk.
+
+This provides a useful contrast with both equal weighting and mean-variance optimization.
+
+---
+
+# Asset Universe
 
 The baseline universe consists of seven exchange-traded funds:
 
@@ -142,19 +175,21 @@ The baseline universe consists of seven exchange-traded funds:
 | DBC | Broad commodities |
 | VNQ | U.S. real estate |
 
-The universe is intentionally multi-asset and includes exposures to:
+The universe provides exposure across:
 
 - domestic equities;
-- international developed equities;
+- developed international equities;
 - emerging-market equities;
 - government bonds;
 - precious metals;
 - commodities; and
 - real estate.
 
+The multi-asset structure allows the research to examine portfolio construction beyond a single equity market.
+
 ---
 
-## Baseline Research Design
+# Baseline Research Design
 
 | Parameter | Baseline |
 |---|---|
@@ -167,18 +202,17 @@ The universe is intentionally multi-asset and includes exposures to:
 | Short selling | None |
 | Transaction cost | 15 bps |
 | Mean-variance risk aversion | 3 |
-| Baseline risk-free rate | 0% |
+| Baseline annual risk-free rate | 0% |
 
-Portfolio weights are formed using information available no later than the end
-of the preceding observation period.
+Portfolio weights are formed using information available no later than the end of the preceding observation period.
 
-The portfolio return for the evaluation period is then observed out of sample.
+The portfolio return for the evaluation period is subsequently observed out of sample.
 
-This chronology is intended to prevent look-ahead bias.
+This chronology is designed to prevent look-ahead bias.
 
 ---
 
-## Out-of-Sample Framework
+# Out-of-Sample Framework
 
 The empirical framework follows a rolling estimation procedure.
 
@@ -204,42 +238,40 @@ The information flow is:
                     v
            Performance evaluation
 
-The return during month `t` is never used to determine the portfolio weights
-that are evaluated during that same month.
+The return during month `t` is not used to determine the portfolio weights evaluated during that same month.
 
 This chronological separation is a central component of the research design.
 
 ---
 
-## Performance Evaluation
+# Performance Evaluation
 
-The study evaluates both investment performance and implementation
-characteristics.
+The study evaluates both investment performance and implementation characteristics.
 
-### Return and Risk
+## Return and Risk
 
 - annualized return;
 - annualized volatility;
 - Sharpe ratio;
 - Sortino ratio;
 - maximum drawdown;
-- skewness;
+- skewness; and
 - excess kurtosis.
 
-### Tail Risk
+## Tail Risk
 
 - historical Value at Risk;
 - Conditional Value at Risk.
 
-### Implementation
+## Implementation
 
 - portfolio turnover;
 - transaction costs;
 - maximum individual portfolio weight;
-- effective number of holdings;
+- effective number of holdings; and
 - portfolio concentration.
 
-### Robustness
+## Robustness
 
 - alternative estimation windows;
 - alternative transaction-cost assumptions;
@@ -247,12 +279,12 @@ characteristics.
 - alternative risk-aversion parameters;
 - quarterly versus monthly rebalancing;
 - market-regime analysis;
-- risk-free-rate sensitivity;
-- bootstrap inference.
+- risk-free-rate sensitivity; and
+- moving-block bootstrap inference.
 
 ---
 
-## Market-Regime Analysis
+# Market-Regime Analysis
 
 Market regimes are defined using trailing 12-month SPY performance.
 
@@ -262,26 +294,23 @@ The baseline classification is:
 - **Neutral:** trailing 12-month SPY return between -10% and +10%;
 - **Bear:** trailing 12-month SPY return below -10%.
 
-The regime signal is lagged by one observation so that information from the
-evaluation period cannot enter its own regime classification.
+The regime signal is lagged by one observation so that information from the evaluation period cannot enter its own classification.
 
-The purpose is to determine whether portfolio construction strategies exhibit
-different performance and risk characteristics across market environments.
+The purpose is to examine whether portfolio construction methods exhibit different performance and risk characteristics across market environments.
 
 ---
 
-## Robustness Analysis
+# Robustness Analysis
 
-A central objective is to determine whether conclusions depend on a particular
-parameter choice.
+A central objective of the project is to determine whether conclusions depend on a particular parameter choice.
 
-### Estimation Window
+## Estimation Window
 
 - 36 months;
 - 60 months;
 - 120 months.
 
-### Transaction Costs
+## Transaction Costs
 
 - 0 bps;
 - 5 bps;
@@ -289,37 +318,43 @@ parameter choice.
 - 15 bps;
 - 30 bps.
 
-### Mean-Variance Risk Aversion
+## Mean-Variance Risk Aversion
 
 - gamma = 1;
 - gamma = 3;
 - gamma = 5;
 - gamma = 10.
 
-### Covariance Estimation
+## Covariance Estimation
 
-The baseline sample covariance matrix is compared with Ledoit-Wolf covariance
-shrinkage.
+The baseline sample covariance matrix is compared with Ledoit-Wolf covariance shrinkage.
 
-### Rebalancing Frequency
+The purpose is to examine whether optimized allocations are sensitive to covariance-estimation noise.
+
+## Rebalancing Frequency
 
 Monthly rebalancing is compared with quarterly rebalancing.
 
-### Statistical Inference
+This allows the research to examine the trade-off between portfolio responsiveness, turnover, transaction costs, and implementation efficiency.
 
-Moving-block bootstrap procedures are used to examine uncertainty around
-performance statistics and pairwise strategy differences.
+## Risk-Free Rate
+
+Sharpe-ratio calculations consider both:
+
+- 0% annual risk-free rate; and
+- 2% annual risk-free rate.
+
+## Statistical Inference
+
+Moving-block bootstrap procedures are included to assess uncertainty around performance statistics and pairwise strategy differences while partially preserving serial dependence in monthly observations.
 
 ---
 
-## Academic Contribution
+# Academic Contribution
 
-The project addresses the gap between theoretical portfolio optimization and
-practical investment implementation.
+The project addresses the gap between theoretical portfolio optimization and practical investment implementation.
 
-Rather than evaluating optimization methods solely through in-sample
-portfolio characteristics, the study asks whether their potential benefits
-survive:
+Rather than evaluating optimization methods solely through in-sample portfolio characteristics, the study examines whether potential benefits survive:
 
 1. rolling out-of-sample evaluation;
 2. estimation uncertainty;
@@ -329,23 +364,21 @@ survive:
 6. covariance-estimation uncertainty; and
 7. alternative model specifications.
 
-The intended contribution is not the proposal of a new optimization algorithm.
+The intended contribution is not the development of a new optimization algorithm.
 
-Instead, the project provides a disciplined empirical comparison of established
-portfolio construction methods under a consistent and implementation-aware
-framework.
+Instead, the project provides a structured empirical framework for evaluating established portfolio construction methods under common information, risk, and implementation constraints.
 
-See [`docs/academic_contribution.md`](docs/academic_contribution.md) for the
-full contribution statement.
+See [`docs/academic_contribution.md`](docs/academic_contribution.md) for the detailed contribution statement.
 
 ---
 
-## Research Integrity
+# Research Integrity
 
-No empirical finding is reported unless it has been generated from actual
-historical data through the research pipeline.
+The project distinguishes explicitly between research design and empirical evidence.
 
-The repository separates:
+No numerical empirical finding is represented as a completed result unless it has been generated from the research pipeline using historical market data.
+
+The repository therefore separates:
 
 - research design;
 - methodology;
@@ -354,15 +387,13 @@ The repository separates:
 - empirical outputs; and
 - interpretation.
 
-The current repository therefore does not fabricate numerical findings merely
-to make the research appear complete.
+This structure is intended to maintain a clear distinction between proposed analysis and completed evidence.
 
-See [`docs/research_integrity.md`](docs/research_integrity.md) for the
-research-integrity protocol.
+See [`docs/research_integrity.md`](docs/research_integrity.md) for the research-integrity framework.
 
 ---
 
-## Repository Structure
+# Repository Structure
 
     portfolio-optimization-research/
     |
@@ -388,8 +419,8 @@ research-integrity protocol.
     |   `-- research_design.md
     |
     |-- paper/
-    |   |-- MSc_Finance_Research_Project_FINAL.docx
-    |   `-- MSc_Finance_Research_Project_FINAL.pdf
+    |   |-- research_paper.docx
+    |   `-- research_paper.pdf
     |
     |-- results/
     |   `-- README.md
@@ -406,26 +437,30 @@ research-integrity protocol.
 
 ---
 
-## Research Status
+# Research Status
 
-**Research design finalized. Empirical execution pending.**
+**Research design finalized. Empirical execution framework established.**
 
-The repository does not currently claim empirical findings that have not been
-generated and audited.
+The repository is structured around a complete research design, executable analysis framework, supporting methodology, literature foundation, and manuscript.
 
-The next research stage is:
+The project is deliberately not presented as containing completed empirical findings that have not been generated and audited.
+
+The research framework is designed to support:
 
 1. empirical execution;
 2. result auditing;
 3. robustness analysis;
-4. statistical inference;
-5. integration of verified results into the manuscript.
+4. statistical inference; and
+5. integration of verified evidence into the manuscript.
 
 ---
 
-## Paper
+# Paper
 
-The research manuscript is available in the `paper/` directory.
+The research manuscript is available in the `paper/` directory:
+
+- [`research_paper.pdf`](paper/research_paper.pdf)
+- [`research_paper.docx`](paper/research_paper.docx)
 
 The manuscript develops:
 
@@ -433,33 +468,47 @@ The manuscript develops:
 - theoretical background;
 - literature foundation;
 - hypotheses;
-- research methodology;
-- empirical framework;
-- robustness design; and
+- portfolio construction methodology;
+- empirical research design;
+- robustness framework;
+- statistical methodology;
+- implementation considerations; and
 - research-integrity standards.
 
 ---
 
-## Reproducibility
+# Reproducibility
 
-The project is implemented in Python and follows a reproducible research
-structure.
+The project is implemented in Python and follows a reproducible research structure.
 
 Research assumptions are documented separately from executable analysis code.
 
-Required Python packages are listed in
-[`requirements.txt`](requirements.txt).
+Required Python packages are listed in [`requirements.txt`](requirements.txt).
 
-The repository is structured so that the research design, methodology,
-analysis code, and empirical outputs can be examined independently.
+The repository is structured so that the research question, methodology, source code, research documentation, and manuscript can be examined independently.
 
 ---
 
-## Author
+# Research Areas
+
+This project combines concepts from:
+
+- Modern Portfolio Theory;
+- portfolio optimization;
+- quantitative investment;
+- asset allocation;
+- risk management;
+- empirical finance;
+- financial econometrics;
+- statistical inference; and
+- investment implementation.
+
+---
+
+# Author
 
 **Sahand Mostafaei**
 
-Independent Research — Quantitative Finance, Portfolio Optimization &
-Risk Management
+Independent Research — Quantitative Finance, Portfolio Optimization & Risk Management
 
 2026
