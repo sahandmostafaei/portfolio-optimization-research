@@ -394,46 +394,47 @@ See [`docs/research_integrity.md`](docs/research_integrity.md) for the research-
 ---
 
 # Repository Structure
-portfolio-optimization-research/
-|
-|-- .github/
-|   `-- workflows/
-|       `-- research_pipeline.yml
-|
-|-- data/
-|   `-- README.md
-|
-|-- docs/
-|   |-- academic_contribution.md
-|   |-- research_integrity.md
-|   `-- reproducibility.md
-|
-|-- figures/
-|   `-- README.md
-|
-|-- literature/
-|   `-- literature_review.md
-|
-|-- methodology/
-|   `-- research_design.md
-|
-|-- paper/
-|   |-- research_paper.docx
-|   `-- research_paper.pdf
-|
-|-- results/
-|   `-- README.md
-|
-|-- src/
-|   |-- README.md
-|   |-- empirical_results_pipeline.py
-|   `-- portfolio_research_reproducibility.py
-|
-|-- CITATION.cff
-|-- LICENSE
-|-- MANIFEST.md
-|-- README.md
-`-- requirements.txt
+
+    portfolio-optimization-research/
+    |
+    |-- .github/
+    |   `-- workflows/
+    |       `-- research_pipeline.yml
+    |
+    |-- data/
+    |   `-- README.md
+    |
+    |-- docs/
+    |   |-- academic_contribution.md
+    |   |-- research_integrity.md
+    |   `-- reproducibility.md
+    |
+    |-- figures/
+    |   `-- README.md
+    |
+    |-- literature/
+    |   `-- literature_review.md
+    |
+    |-- methodology/
+    |   `-- research_design.md
+    |
+    |-- paper/
+    |   |-- research_paper.docx
+    |   `-- research_paper.pdf
+    |
+    |-- results/
+    |   `-- README.md
+    |
+    |-- src/
+    |   |-- README.md
+    |   |-- empirical_results_pipeline.py
+    |   `-- portfolio_research_reproducibility.py
+    |
+    |-- CITATION.cff
+    |-- LICENSE
+    |-- MANIFEST.md
+    |-- README.md
+    `-- requirements.txt
 
 # Research Status
 
